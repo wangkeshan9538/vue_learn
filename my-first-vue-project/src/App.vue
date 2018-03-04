@@ -6,6 +6,7 @@
 </template>
 
 <script>
+//省略了一个var i=new Vue({})
 export default {
   name: 'App'
 }

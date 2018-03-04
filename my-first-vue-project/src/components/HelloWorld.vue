@@ -1,84 +1,11 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
+    <h1>{{ title }}</h1>
+    <ul >
+    	<input type="text" v-model="newitem" v-on:keyup.enter="addnew"/>
+    	<li v-for="item in items" v-bind:class="{finished:item.isfinished}" v-on:click="transform(item)"> 
+    		{{item.label}}
+    	</li>
     </ul>
   </div>
 </template>
@@ -86,10 +13,38 @@
 <script>
 export default {
   name: 'HelloWorld',
+  //es6语法，相当于 data: function(){}
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      title: 'this is a todo list',
+      items:[
+      {
+      	label:"coding",
+      	isfinished:false
+      },
+      {
+      	label:"walking",
+      	isfinished:true
+      	
+      }
+      ],
+      newitem:''
     }
+  },
+  methods:{
+  	transform:function(item){
+  		item.isfinished=!item.isfinished;
+  	},
+  	addnew:function(){
+  		//this指向 vue实例 
+  		//console.log(this);
+  		//此处更新items会直接让前端再次渲染，说明前端的v-for是双向绑定的方式，而不是一次渲染就结束的方式
+  		this.items.push({
+  			label:this.newitem,
+  			isfinished:"false"
+  		});
+  		this.newitem='';
+  	}
   }
 }
 </script>
@@ -99,12 +54,15 @@ export default {
 h1, h2 {
   font-weight: normal;
 }
+.finished {
+	text-decoration: line-through;
+}
 ul {
   list-style-type: none;
   padding: 0;
 }
 li {
-  display: inline-block;
+  #display: inline-block;
   margin: 0 10px;
 }
 a {
