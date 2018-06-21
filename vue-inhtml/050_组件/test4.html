@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>具名slot</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+
+
+<div id="app">
+
+
+    <base-layout>
+        <part-a slot="header">
+            <div>sss</div>
+        </part-a>
+
+        <p>A paragraph for the main content.</p>
+        <p>And another one.</p>
+
+        <template slot="footer">
+            <p>Here's some contact info</p>
+        </template>
+    </base-layout>
+
+</div>
+
+
+<script type="application/javascript">
+    Vue.component('part-a', {
+        template: `
+          <div>parta
+          <slot></slot>
+          </div>
+          `
+    })
+
+
+    Vue.component('base-layout', {
+        template: `
+          <div class="container">
+          <header>
+            <slot name="header"></slot>
+          </header>
+          <main>
+            <slot></slot>
+          </main>
+          <footer>
+            <slot name="footer"></slot>
+          </footer>
+        </div>
+          `
+    })
+
+
+    new Vue({
+        el: '#app',
+
+    })
+</script>
+</body>
+</html>

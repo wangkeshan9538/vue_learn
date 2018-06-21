@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+    <!--直接传值 后面的值是boolean 判断classs是否需要-->
+    <div v-bind:class="{ active: isActive }"></div>
+
+    <!--传一个对象-->
+    <div v-bind:class="classObject"></div>
+
+    <!--传一个数组 后面的值是class名 ， 这样写一看好像不能用值来判断是否可用class-->
+    <div v-bind:class="[activeClass, errorClass]"></div>
+
+    <!--这样就可以 使用值来判断class 的有效 ,但是就不能使用值来表示class 名了-->
+    <div v-bind:class="[{ active: isActive }, errorClass]"></div>
+
+
+</div>
+
+
+<script type="application/javascript">
+
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            isActive:true,
+            classObject:{
+                isHiddle:false,
+                isRed:true
+            },
+            activeClass: 'active',
+            errorClass: 'text-danger'
+        },
+        methods: {
+
+        },
+
+    });
+
+</script>
+</body>
+</html>

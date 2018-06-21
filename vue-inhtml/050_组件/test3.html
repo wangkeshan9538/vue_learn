@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用自定义事件来保证父组件可以用和原生事件相同的名称来注册子组件事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+
+    <base-input @input="cli2($event)"></base-input>
+</div>
+
+<script type="application/javascript">
+    Vue.component('base-input', {
+        methods: {
+            cli1: function (event) {
+                this.$emit('input', event.target.value)
+            }
+        },
+        template: `
+    <label>
+      <input
+        @input="cli1"
+      >
+    </label>
+  `
+    })
+
+
+    new Vue({
+        el: '#app',
+        methods: {
+            cli2: function (event) {
+                console.log(event);
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

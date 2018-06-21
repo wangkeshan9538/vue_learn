@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件的基础应用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+
+
+<div id="blog-posts-events-demo">
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post
+                @enlarge-text="postFontSize += 0.1"
+                @enlarge-text-bycmponent="postFontSize+= $event"
+                v-bind:key="post.id"
+                v-bind:post="post"
+        ></blog-post>
+    </div>
+
+    <!--slot消息分发-->
+    <alert-box>这是父组件给的消息分发</alert-box>
+
+
+    <!--动态切换组件-->
+    <button v-for="tab in tabs"
+             @click="currentTab=tab"
+    >{{tab}}</button>
+    <component
+            v-bind:is="currentTabComponent"
+     ></component>
+</div>
+
+
+<script type="application/javascript">
+
+
+    Vue.component('blog-post', {
+        props: ['post'],
+        template: `
+            <div class="blog-post">
+              <h3>{{ post.title }}</h3>
+              <div v-html="post.content"></div>
+
+              <button @click="$emit('enlarge-text')">
+                点一下加字体大小
+              </button>
+              <button @click="$emit('enlarge-text-bycmponent',2)">
+                点一下加2字体大小 ，大小可以由子组件传出去
+              </button>
+            </div>
+          `
+    })
+
+
+    Vue.component('alert-box', {
+        template: `
+            <div class="demo-alert-box">
+              <strong>Error!</strong>
+              <slot></slot>
+            </div>
+          `
+    })
+
+
+    Vue.component('tab-home', {
+        template: '<div>Home component</div>'
+    })
+    Vue.component('tab-posts', {
+        template: '<div>Posts component</div>'
+    })
+    Vue.component('tab-archive', {
+        template: '<div>Archive component</div>'
+    })
+    
+    new Vue({
+        el: '#blog-posts-events-demo',
+        data: {
+            post: {
+                id: "1",
+                title: "标题",
+                content: `<p>内容</p>`
+            },
+            postFontSize: 1,
+            currentTab:'home',
+            tabs:['home','posts','archive']
+        },
+        computed:{
+            currentTabComponent:function () {
+                return 'tab-' + this.currentTab.toLowerCase()
+            }
+        }
+    })
+</script>
+</body>
+</html>

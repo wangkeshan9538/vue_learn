@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>Hello App!</h1>
+    <p>
+        <router-link to="/foo">Go to Foo</router-link>
+        <router-link to="/bar">Go to Bar</router-link>
+
+        <router-link to="/user/id1">Go to Bar</router-link>
+        <router-link to="/user/id2">Go to Bar</router-link>
+    </p>
+    <router-view></router-view>
+
+
+    <script type="application/javascript">
+
+        // 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
+
+        // 1. 定义 (路由) 组件。
+        // 可以从其他文件 import 进来
+        const Foo = { template: '<div>foo</div>' }
+        const Bar = { template: '<div>bar</div>' }
+        const User = { template: '<div> {{ $data }}</div>' }
+        const routes = [
+            { path: '/foo', component: Foo },
+            { path: '/bar', component: Bar },
+            { path: '/user/:id', component: User },
+        ]
+
+        const router = new VueRouter({
+            routes // (缩写) 相当于 routes: routes
+        })
+
+        const app = new Vue({
+            router
+        }).$mount('#app')
+
+        // 现在，应用已经启动了！
+    </script>
+
+</div>
+</body>
+</html>

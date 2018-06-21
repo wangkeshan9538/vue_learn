@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>嵌套命名视图</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <h1>User Settings</h1>
+        <router-view/>
+    </div>
+
+
+    <script type="application/javascript">
+
+        // 0. 如果使用模块化机制编程，导入Vue和VueRouter，要调用 Vue.use(VueRouter)
+
+        // 1. 定义 (路由) 组件。
+        // 可以从其他文件 import 进来
+        const UserSettings = { template: '<div>UserSettings <router-view/><router-view name="helper"/></div>' }
+
+        const UserEmailsSubscriptions= { template: '<div>UserEmailsSubscriptions</div>' }
+        const UserProfilePreview= { template:'<div>UserProfilePreview</div>' }
+        const UserProfile={ template:'<div>UserProfile</div>' }
+        const router = new VueRouter({
+            routes: [
+                {
+                    path: '/settings',
+                    // 你也可以在顶级路由就配置命名视图
+                    component: UserSettings,
+                    children: [{
+                        path: 'emails',
+                        component: UserEmailsSubscriptions
+                    }, {
+                        path: 'profile',
+                        components: {
+                            default: UserProfile,
+                            helper: UserProfilePreview
+                        }
+                    }]
+                }
+            ]
+        })
+
+
+        const app = new Vue({
+            router
+        }).$mount('#app')
+
+        // 现在，应用已经启动了！
+    </script>
+
+</div>
+</body>
+</html>

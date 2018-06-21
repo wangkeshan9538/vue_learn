@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+
+     <input
+            :value="message"
+    ></input>
+
+    <p>使用watch监听</p>
+    <input
+            v-model="time"
+    ></input>
+
+    <button @click="cli">click</button>
+
+    <p>Computed reversed message: "{{ reversedMessage }}"</p>
+</div>
+
+
+<script type="application/javascript">
+
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'test2',
+            time: 'created'
+        },
+        methods: {
+            cli: function () {
+                alert("yoo click me");
+            }
+
+        },
+        created: function () {
+            console.log('Vue is creating')
+        },
+        computed: {
+            reversedMessage: {
+                get: function () {
+                    console.log("into get method");
+                    return this.message.split('').reverse().join('')
+                },
+                set: function () {
+                    console.log("into set method");
+                }
+            }
+        },
+        watch: {
+            time: function (val, old) {
+                this.reversedMessage=11;
+                console.log(val, old);
+            }
+        }
+    });
+
+</script>
+</body>
+</html>
