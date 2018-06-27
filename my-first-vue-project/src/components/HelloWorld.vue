@@ -10,6 +10,9 @@
 		<div>from son: {{fromson}}</div>
 		<component-a messagefromfaher='hello' v-on:childtellme='childtellme'></component-a>
     <div>{{count}}</div>
+    <div>{{localComputed}}</div>
+
+    <button @click="add">add</button>
 	</div>
 </template>
 
@@ -58,16 +61,22 @@
 			},
 			childtellme:function(item){
 					this.fromson=item;
-			}
+			},
+      add:function(){
+        this.$store.state.count++;
+      }
 		},
     computed:{
-
+      localComputed(){
+        console.log(this.$store.state.count);
+        return this.$store.state.count;
+      },
       ...mapState({
-       count: state => state.count
+       count: "count"
     })
 
   },
-		created:()=>console.log(this.$store)
+		created:()=>{ console.log(this.$store) }
 
 	}
 </script>
